@@ -60,6 +60,11 @@
             "GPT-3.5-turbo: Cheaper and faster model.",
             "GPT-4-0314: Best GPT model. Currently only available to developers who have received access from OpenAI."
           ]
+        },
+        "gpt-developer.maxTokens": {
+          "type": "number",
+          "default": 2000,
+          "description": "Maximum number of tokens that GPT will generate. The higher this value, the more tokens will be used. There's the possibility that, considering also the number of input tokens (length of the selected code), the token limit of the model is surpassed and it will not be possible to receive a response from the model."
         }
       }
     }

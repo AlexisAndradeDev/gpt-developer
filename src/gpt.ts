@@ -43,6 +43,11 @@ function getModelName(): string | undefined {
     return modelName;
 }
 
+function getMaxTokens(): number | undefined {
+    const maxTokens = vscode.workspace.getConfiguration("gpt-developer").get<number>("maxTokens");
+    return maxTokens;
+}
+
 function getConfig() {
     const openAIApi = getOpenAIApi();
     if (openAIApi === undefined) {
@@ -56,10 +61,18 @@ function getConfig() {
         throw new ConfigError("Could not find a model name. Choose a model in the configuration of this extension.");
     }
 
+    var maxTokens = getMaxTokens();
+    if (maxTokens === undefined) {
+        maxTokens = 2000;
+        vscode.window.showWarningMessage("You haven't stablished a max number of tokens. By default, " + maxTokens + " tokens is the limit.");
+    }
+
     const config = {
         "openAIApi": openAIApi,
         "modelName": modelName,
+        "maxTokens": maxTokens,
     };
+
 
     return config;
 }
@@ -87,7 +100,7 @@ export async function getGptSuggestion(prompt: string, systemMessage: string): P
     const response = await config["openAIApi"].createChatCompletion({
         model: config["modelName"],
         messages: messages,
-        max_tokens: 1000,
+        max_tokens: config["maxTokens"],
         n: 1,
     });
 
