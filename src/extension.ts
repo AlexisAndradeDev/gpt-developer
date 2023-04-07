@@ -114,6 +114,35 @@ async function explainCommand() {
 	}
 }
 
+async function askFreeCommand() {
+	const [editor, inputCode] = vsc.startCommandForTextEditor(false);
+
+	const userInput = await vscode.window.showInputBox();
+	if (!userInput) {
+		vscode.window.showErrorMessage("Enter your prompt.");
+		throw new NoPrompt("Enter your prompt.");
+	}
+
+	var prompt = "";
+	if (inputCode) {
+		prompt += "Code:\n```" + inputCode + "\n```\n";
+	}
+	prompt += "User says:\n\"" + userInput + "\".";
+
+	try {
+		vscode.window.showInformationMessage("Asking GPT...");
+		const answer = await gpt.getGptAskFree(prompt);
+
+		const htmlContent = "<html><body><pre>" + answer + "</pre></body></html>";
+		vsc.showSideBar(htmlContent);
+		vscode.window.showInformationMessage("Answer created.");
+	}
+	catch (error) {
+		vscode.window.showErrorMessage("Could not get response from OpenAI.");
+		throw new NoResponse("Could not get response from OpenAI");
+	}
+}
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -136,6 +165,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 		vscode.commands.registerCommand("gpt-developer.explain", async () => {
 			explainCommand();
+		}),
+
+		vscode.commands.registerCommand("gpt-developer.ask_free", async () => {
+			askFreeCommand();
 		}),
 	];
 

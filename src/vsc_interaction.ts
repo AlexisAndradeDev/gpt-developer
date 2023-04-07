@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { NoActiveEditor } from './exceptions';
 
-export function getSelectedCode(editor: vscode.TextEditor): string {
+export function getSelectedCode(editor: vscode.TextEditor, getAllPreviousCodeIfNotSelected: boolean = true): string {
     var selectedCode = "";
 
     editor.selections.forEach(selection => {
@@ -9,7 +9,7 @@ export function getSelectedCode(editor: vscode.TextEditor): string {
         selectedCode += editor.document.getText(selection);
     });
 
-    if (!selectedCode) {
+    if (!selectedCode && getAllPreviousCodeIfNotSelected) {
         // get the text before cursor position
         const currentPosition = editor.selection.active;
         const textRange = new vscode.Range(
@@ -20,14 +20,14 @@ export function getSelectedCode(editor: vscode.TextEditor): string {
     return selectedCode;
 }
 
-export function startCommandForTextEditor() {
+export function startCommandForTextEditor(getAllPreviousCodeIfNotSelected: boolean = true) {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         vscode.window.showInformationMessage("There's no active editor.");
         throw new NoActiveEditor("There's no active editor.");
     }
 
-    const selectedCode = getSelectedCode(editor);
+    const selectedCode = getSelectedCode(editor, getAllPreviousCodeIfNotSelected);
 
     const maxPromptLength = 5000 * 4; // 1 token ~= 4 chars in English
     if (selectedCode.length > maxPromptLength) {

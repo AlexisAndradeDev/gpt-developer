@@ -141,3 +141,11 @@ export async function getGptExplain(prompt: string): Promise<string> {
     );
     return suggestion;
 }
+
+export async function getGptAskFree(prompt: string): Promise<string> {
+    var suggestion = await getGptSuggestion(
+        prompt,
+        "You are a virtual assistant installed in Visual Studio Code as an extension to help in software development and programming tasks.",
+    );
+    return suggestion;
+}
