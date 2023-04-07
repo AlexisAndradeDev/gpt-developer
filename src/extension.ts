@@ -91,6 +91,29 @@ async function autochangeCommand() {
 	}
 }
 
+async function explainCommand() {
+	const [editor, inputCode] = vsc.startCommandForTextEditor();
+
+	const userInput = await vscode.window.showInputBox();
+
+	const userQuestion = !userInput ? "Explain this code." : userInput;
+	
+	const prompt = "Code:\n```" + inputCode + "\n```\nUser says:\n\"" + userQuestion + "\".";
+
+	try {
+		vscode.window.showInformationMessage("Asking GPT...");
+		const answer = await gpt.getGptExplain(prompt);
+
+		const htmlContent = "<html><body><pre>" + answer + "</pre></body></html>";
+		vsc.showSideBar(htmlContent);
+		vscode.window.showInformationMessage("Explanation created.");
+	}
+	catch (error) {
+		vscode.window.showErrorMessage("Could not get response from OpenAI.");
+		throw new NoResponse("Could not get response from OpenAI");
+	}
+}
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -109,6 +132,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 		vscode.commands.registerCommand("gpt-developer.autochange", async () => {
 			autochangeCommand();
+		}),
+
+		vscode.commands.registerCommand("gpt-developer.explain", async () => {
+			explainCommand();
 		}),
 	];
 

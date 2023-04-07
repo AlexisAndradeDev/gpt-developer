@@ -133,3 +133,11 @@ export async function getGptAutochange(prompt: string): Promise<string> {
     suggestion = cleanCodeAnswer(suggestion);
     return suggestion;
 }
+
+export async function getGptExplain(prompt: string): Promise<string> {
+    var suggestion = await getGptSuggestion(
+        prompt,
+        "You are a debugging tool installed in Visual Studio Code as an extension. You are given a piece of code and are asked to explain it.",
+    );
+    return suggestion;
+}
