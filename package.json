@@ -1,0 +1,82 @@
+{
+  "name": "gpt-developer",
+  "displayName": "GPT Developer",
+  "publisher": "AlexisAndradeDev",
+  "description": "Software development assistant based on GPT. Auto-complete code, give software architecture suggestions, debug, simulate executions, and all the other functions that GPT can perform if good prompts are used.",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.77.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "gpt-developer.autocode",
+        "title": "GPT Developer: Autocode"
+      },
+      {
+        "command": "gpt-developer.autorun",
+        "title": "GPT Developer: Autorun"
+      },
+      {
+        "command": "gpt-developer.ask_problem",
+        "title": "GPT Developer: Ask problem"
+      },
+      {
+        "command": "gpt-developer.autochange",
+        "title": "GPT Developer: Autochange"
+      }
+    ],
+    "configuration": {
+      "title": "GPT Developer",
+      "properties": {
+        "gpt-developer.openAIKey": {
+          "type": "string",
+          "default": "",
+          "description": "Your OpenAI API key. Leave this field blank to use OPENAI_SECRET_KEY environment variable."
+        },
+        "gpt-developer.model": {
+          "type": "string",
+          "default": "gpt-3.5-turbo",
+          "enum": [
+            "gpt-3.5-turbo",
+            "gpt-4-0314"
+          ],
+          "description": "The model from OpenAI that you want to use.",
+          "markdownEnumDescriptions": [
+            "GPT-3.5-turbo: Cheaper and faster model.",
+            "GPT-4-0314: Best GPT model. Currently only available to developers who have received access from OpenAI."
+          ]
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.77.0",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "@vscode/test-electron": "^2.3.0",
+    "eslint": "^8.36.0",
+    "glob": "^8.1.0",
+    "mocha": "^10.2.0",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "openai": "^3.2.1"
+  }
+}
