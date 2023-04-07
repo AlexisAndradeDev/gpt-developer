@@ -9,6 +9,8 @@ Software development assistant based on GPT. Auto-complete code, give software a
 * Autorun: GPT simulates how the selected code would run, giving details about variables values, exceptions raised, bugs and information about runtime and compilation.
 * Ask Problem: Select a piece of code and ask GPT about a problem that the piece of code has or might have.
 * Autochange: Select a piece of code and ask GPT to change something about it.
+* Explain: Select a piece of code and ask GPT to explain what it does.
+* Ask Free: Select a piece of code and ask GPT anything you want. If no code is selected, GPT will not receive any code and the prompt will only consist of the message that you typed.
 
 > More features coming soon...
 
@@ -26,6 +28,10 @@ This extension contributes the following settings:
 * `gpt-developer.model`: The model from OpenAI that you want to use (e.g. `gpt-4-0314`).
 
 ## Release Notes
+
+### 1.2.0
+
+Added Ask Free command.
 
 ### 1.1.0
 
