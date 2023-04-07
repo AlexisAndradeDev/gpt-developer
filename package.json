@@ -29,6 +29,10 @@
       {
         "command": "gpt-developer.autochange",
         "title": "GPT Developer: Autochange"
+      },
+      {
+        "command": "gpt-developer.explain",
+        "title": "GPT Developer: Explain"
       }
     ],
     "configuration": {

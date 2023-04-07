@@ -12,6 +12,12 @@ Software development assistant based on GPT. Auto-complete code, give software a
 
 > More features coming soon...
 
+## How to use
+
+Setup your settings. Go to `File/Preferences/Settings` and type `GPT Developer`. You will see two fields: `Model` and `Open AIKey`. Choose a model and enter your OpenAI key. You can see more details about how to fill them in the **Extension Settings** section.
+
+Go to your code and start playing with GPT! You can see all the commands that this extension provides by going to `View/Command Palette...` (or using the default shortcut `Ctrl + Shift + P`). An input box will appear; type `>GPT Developer:` and all the commands will be displayed. To execute a command, just click on it.
+
 ## Extension Settings
 
 This extension contributes the following settings:
@@ -20,6 +26,10 @@ This extension contributes the following settings:
 * `gpt-developer.model`: The model from OpenAI that you want to use (e.g. `gpt-4-0314`).
 
 ## Release Notes
+
+### 1.1.0
+
+Added Explain.
 
 ### 1.0.0
 
