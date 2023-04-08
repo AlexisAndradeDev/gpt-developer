@@ -38,10 +38,27 @@ export function startCommandForTextEditor(getAllPreviousCodeIfNotSelected: boole
     return [editor, prompt] as const;
 }
 
+function escapeHtml(unsafeHtml: string) {
+    return unsafeHtml
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function escapeCodeSections(content: string) {
+    return content.replace(/```html([\s\S]*?)```/g, (match, code) => {
+        return '```html\n' + escapeHtml(code) + '```';
+    });
+}
+
 export function showSideBar(htmlContent: string) {
     const panel = vscode.window.createWebviewPanel(
         "sidebarExtension", "GPT Response", vscode.ViewColumn.Two,
         {}
     );
-    panel.webview.html = htmlContent;
+    const escapedContent = escapeCodeSections(htmlContent);
+    const html = `<html><body><pre>${escapedContent}</pre></body></html>`;
+    panel.webview.html = html;
 }
