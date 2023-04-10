@@ -4,7 +4,7 @@
   "publisher": "AlexisAndradeDev",
   "description": "Software development assistant based on GPT. Auto-complete code, give software architecture suggestions, debug, simulate executions, and all the other functions that GPT can perform if good prompts are used.",
   "icon": "images/icon.png",
-  "version": "1.2.0",
+  "version": "1.3.4",
   "engines": {
     "vscode": "^1.77.0"
   },

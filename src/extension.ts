@@ -31,8 +31,7 @@ async function autorunCommand() {
 		vscode.window.showInformationMessage("Asking GPT...");
 		const answer = await gpt.getGptAutorun(inputCode);
 
-		const htmlContent = "<html><body><pre>" + answer + "</pre></body></html>";
-		vsc.showSideBar(htmlContent);
+		vsc.showGPTAnswer(answer);
 		vscode.window.showInformationMessage("Code ran.");
 	}
 	catch (error) {
@@ -56,8 +55,7 @@ async function askProblemCommand() {
 		vscode.window.showInformationMessage("Asking GPT...");
 		const answer = await gpt.getGptAskProblem(prompt);
 
-		const htmlContent = "<html><body><pre>" + answer + "</pre></body></html>";
-		vsc.showSideBar(htmlContent);
+		vsc.showGPTAnswer(answer);
 		vscode.window.showInformationMessage("Answer created.");
 	}
 	catch (error) {
@@ -81,8 +79,7 @@ async function autochangeCommand() {
 		vscode.window.showInformationMessage("Asking GPT...");
 		const answer = await gpt.getGptAutochange(prompt);
 
-		const htmlContent = "<html><body><pre>" + answer + "</pre></body></html>";
-		vsc.showSideBar(htmlContent);
+		vsc.showGPTAnswer(answer);
 		vscode.window.showInformationMessage("Changed code created.");
 	}
 	catch (error) {
@@ -104,8 +101,7 @@ async function explainCommand() {
 		vscode.window.showInformationMessage("Asking GPT...");
 		const answer = await gpt.getGptExplain(prompt);
 
-		const htmlContent = "<html><body><pre>" + answer + "</pre></body></html>";
-		vsc.showSideBar(htmlContent);
+		vsc.showGPTAnswer(answer);
 		vscode.window.showInformationMessage("Explanation created.");
 	}
 	catch (error) {
@@ -133,8 +129,7 @@ async function askFreeCommand() {
 		vscode.window.showInformationMessage("Asking GPT...");
 		const answer = await gpt.getGptAskFree(prompt);
 
-		const htmlContent = "<html><body><pre>" + answer + "</pre></body></html>";
-		vsc.showSideBar(htmlContent);
+		vsc.showGPTAnswer(answer);
 		vscode.window.showInformationMessage("Answer created.");
 	}
 	catch (error) {

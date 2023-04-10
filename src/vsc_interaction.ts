@@ -53,12 +53,12 @@ function escapeCodeSections(content: string) {
     });
 }
 
-export function showSideBar(htmlContent: string) {
+export function showGPTAnswer(answer: string) {
     const panel = vscode.window.createWebviewPanel(
-        "sidebarExtension", "GPT Response", vscode.ViewColumn.Two,
+        "gptResponse", "GPT Response", vscode.ViewColumn.Two,
         {}
     );
-    const escapedContent = escapeCodeSections(htmlContent);
-    const html = `<html><body><pre>${escapedContent}</pre></body></html>`;
-    panel.webview.html = html;
+    const escapedContent = escapeHtml(answer);
+    const gptAnswerHtml = "<html><body><pre>" + escapedContent + "</pre></body></html>";
+    panel.webview.html = gptAnswerHtml;
 }
