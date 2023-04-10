@@ -48,8 +48,8 @@ function escapeHtml(unsafeHtml: string) {
 }
 
 function escapeCodeSections(content: string) {
-    return content.replace(/```html([\s\S]*?)```/g, (match, code) => {
-        return '```html\n' + escapeHtml(code) + '```';
+    return content.replace(/```([\s\S]*?)```/g, (match, code) => {
+        return '```' + escapeHtml(code) + '```';
     });
 }
 
