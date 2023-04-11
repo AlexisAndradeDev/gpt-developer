@@ -46,6 +46,22 @@
       {
         "command": "gpt-developer.autorun_sequence",
         "title": "GPT Developer: Autorun in Sequence"
+      },
+      {
+        "command": "gpt-developer.esoteric",
+        "title": "GPT Developer: Esoteric"
+      },
+      {
+        "command": "gpt-developer.refactorize",
+        "title": "GPT Developer: Refactorize"
+      },
+      {
+        "command": "gpt-developer.design_patterns_suggestions",
+        "title": "GPT Developer: Design Patterns Suggestions"
+      },
+      {
+        "command": "gpt-developer.design_pattern",
+        "title": "GPT Developer: Design Pattern"
       }
     ],
     "configuration": {

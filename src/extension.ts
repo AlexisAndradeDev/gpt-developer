@@ -20,7 +20,7 @@ async function autocodeCommand() {
 	}
 	catch (error) {
 		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		throw new NoResponse("Could not get response from OpenAI");
+		return;
 	}
 }
 
@@ -36,7 +36,7 @@ async function autorunCommand() {
 	}
 	catch (error) {
 		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		throw new NoResponse("Could not get response from OpenAI");
+		return;
 	}
 }
 
@@ -46,7 +46,7 @@ async function askProblemCommand() {
 	const userInput = await vscode.window.showInputBox();
 	if (!userInput) {
 		vscode.window.showErrorMessage("Enter your prompt.");
-		throw new NoPrompt("Enter your prompt.");
+		return;
 	}
 	
 	const prompt = "Code:\n```" + inputCode + "\n```\nQuestion:\n\"" + userInput + "\".";
@@ -60,7 +60,7 @@ async function askProblemCommand() {
 	}
 	catch (error) {
 		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		throw new NoResponse("Could not get response from OpenAI");
+		return;
 	}
 }
 
@@ -70,7 +70,7 @@ async function autochangeCommand() {
 	const userInput = await vscode.window.showInputBox();
 	if (!userInput) {
 		vscode.window.showErrorMessage("Enter your prompt.");
-		throw new NoPrompt("Enter your prompt.");
+		return;
 	}
 	
 	const prompt = "Code:\n```" + inputCode + "\n```\nChange this:\n\"" + userInput + "\".";
@@ -84,7 +84,7 @@ async function autochangeCommand() {
 	}
 	catch (error) {
 		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		throw new NoResponse("Could not get response from OpenAI");
+		return;
 	}
 }
 
@@ -106,7 +106,7 @@ async function explainCommand() {
 	}
 	catch (error) {
 		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		throw new NoResponse("Could not get response from OpenAI");
+		return;
 	}
 }
 
@@ -116,7 +116,7 @@ async function askFreeCommand() {
 	const userInput = await vscode.window.showInputBox();
 	if (!userInput) {
 		vscode.window.showErrorMessage("Enter your prompt.");
-		throw new NoPrompt("Enter your prompt.");
+		return;
 	}
 
 	var prompt = "";
@@ -134,7 +134,7 @@ async function askFreeCommand() {
 	}
 	catch (error) {
 		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		throw new NoResponse("Could not get response from OpenAI");
+		return;
 	}
 }
 
@@ -150,7 +150,7 @@ async function autorunExampleCommand() {
 	}
 	catch (error) {
 		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		throw new NoResponse("Could not get response from OpenAI");
+		return;
 	}
 }
 
@@ -166,7 +166,79 @@ async function autorunSequenceCommand() {
 	}
 	catch (error) {
 		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		throw new NoResponse("Could not get response from OpenAI");
+		return;
+	}
+}
+
+async function esotericCommand() {
+	const [editor, inputCode] = vsc.startCommandForTextEditor();
+	
+	try {
+		vscode.window.showInformationMessage("Asking GPT...");
+		const answer = await gpt.getGptEsoteric(inputCode);
+
+		vsc.showGPTAnswer(answer);
+		vscode.window.showInformationMessage("Code created.");
+	}
+	catch (error) {
+		vscode.window.showErrorMessage("Could not get response from OpenAI.");
+		return;
+	}
+}
+
+async function refactorizeCommand() {
+	const [editor, inputCode] = vsc.startCommandForTextEditor();
+	
+	try {
+		vscode.window.showInformationMessage("Asking GPT...");
+		const answer = await gpt.getGptRefactorize(inputCode);
+
+		vsc.showGPTAnswer(answer);
+		vscode.window.showInformationMessage("Code created.");
+	}
+	catch (error) {
+		vscode.window.showErrorMessage("Could not get response from OpenAI.");
+		return;
+	}
+}
+
+async function designPatternsSuggestionsCommand() {
+	const [editor, inputCode] = vsc.startCommandForTextEditor();
+	
+	try {
+		vscode.window.showInformationMessage("Asking GPT...");
+		const answer = await gpt.getGptDesignPatternsSugesttions(inputCode);
+
+		vsc.showGPTAnswer(answer);
+		vscode.window.showInformationMessage("Answer created.");
+	}
+	catch (error) {
+		vscode.window.showErrorMessage("Could not get response from OpenAI.");
+		return;
+	}
+}
+
+async function designPatternCommand() {
+	const [editor, inputCode] = vsc.startCommandForTextEditor();
+
+	const userInput = await vscode.window.showInputBox();
+	if (!userInput) {
+		vscode.window.showErrorMessage("Enter your prompt.");
+		return;
+	}
+	
+	const prompt = "Code:\n```" + inputCode + "\n```\nDesign pattern: " + userInput + ".";
+
+	try {
+		vscode.window.showInformationMessage("Asking GPT...");
+		const answer = await gpt.getGptDesignPattern(prompt);
+
+		vsc.showGPTAnswer(answer);
+		vscode.window.showInformationMessage("Answer created.");
+	}
+	catch (error) {
+		vscode.window.showErrorMessage("Could not get response from OpenAI.");
+		return;
 	}
 }
 
@@ -204,6 +276,22 @@ export function activate(context: vscode.ExtensionContext) {
 
 		vscode.commands.registerCommand("gpt-developer.autorun_sequence", async () => {
 			autorunSequenceCommand();
+		}),
+
+		vscode.commands.registerCommand("gpt-developer.esoteric", async () => {
+			esotericCommand();
+		}),
+
+		vscode.commands.registerCommand("gpt-developer.refactorize", async () => {
+			refactorizeCommand();
+		}),
+
+		vscode.commands.registerCommand("gpt-developer.design_patterns_suggestions", async () => {
+			designPatternsSuggestionsCommand();
+		}),
+
+		vscode.commands.registerCommand("gpt-developer.design_pattern", async () => {
+			designPatternCommand();
 		}),
 	];
 
