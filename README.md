@@ -6,7 +6,7 @@ Software development assistant based on GPT. Auto-complete code, give software a
 
 * Use GPT-3.5-turbo (current ChatGPT) or GPT-4 (if you have access!).
 
-* Autocode: Select a piece of code and GPT will automatically generate new code (works better if you specify using comments what you want GPT to write!). If no code is selected, all the code before the cursor's position will be passed to GPT (20,000 chars ~ 4,000 tokens is the max length).
+* Autocode: Select a code snippet and GPT will automatically generate new code (works better if you specify using comments what you want GPT to write!). If no code is selected, all the code before the cursor's position will be passed to GPT (20,000 chars ~ 4,000 tokens is the max length).
 
 ![Autocode GIF](https://www.dropbox.com/s/d103qjdersuovk7/autocode.gif?dl=1)
 
@@ -22,13 +22,19 @@ Software development assistant based on GPT. Auto-complete code, give software a
 
 ![Autorun with Example GIF](https://www.dropbox.com/s/ivb52xra59vb0t4/autorun-example.gif?dl=1)
 
-* Ask Problem: Select a piece of code and ask GPT about a problem that the piece of code has or might have.
+* Ask Problem: Select a code snippet and ask GPT about a problem that the code snippet has or might have.
 
-* Autochange: Select a piece of code and ask GPT to change something about it.
+* Autochange: Select a code snippet and ask GPT to change something about it.
 
-* Explain: Select a piece of code and ask GPT to explain what it does.
+* Explain: Select a code snippet and ask GPT to explain what it does.
 
-* Ask Free: Select a piece of code and ask GPT anything you want. If no code is selected, GPT will not receive any code and the prompt will only consist of the message that you typed.
+* Ask Free: Select a code snippet and ask GPT anything you want. If no code is selected, GPT will not receive any code and the prompt will only consist of the message that you typed.
+
+* Design Patterns Suggestions: Select a code snippet and GPT will tell you the best design patterns to apply.
+
+* Design Pattern: Select a code snippet, enter the name of a design pattern and GPT will apply it to the code snippet.
+
+* Esoteric: ?
 
 > More features coming soon...
 
@@ -47,6 +53,10 @@ This extension contributes the following settings:
 * `gpt-developer.maxTokens`: Maximum number of tokens that GPT will generate. The higher this value, the more tokens will be used. There's the possibility that, considering also the number of input tokens (length of the selected code), the token limit of the model is surpassed and it will not be possible to receive a response from the model.
 
 ## Release Notes
+
+### 1.5.0
+
+Added Esoteric, Refactorize, Design Patterns Suggestions and Design Pattern commands.
 
 ### 1.4.0
 
