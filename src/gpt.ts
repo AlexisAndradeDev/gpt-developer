@@ -116,7 +116,7 @@ export async function getGptSuggestion(prompt: string, systemMessage: string): P
 export async function getGptAutocode(prompt: string): Promise<string> {
     var suggestion = await getGptSuggestion(
         prompt, 
-        "You are a code auto-completion tool installed in Visual Studio Code as an extension. You ONLY give *code*. Do NOT explain or write anything more.",
+        "You are a code auto-completion tool installed in Visual Studio Code as an extension. Given the input code and comments, generate new code (DO NOT rewrite the input code, just return the NEW one). Pay especial attention to the latest comment (if there's one). You ONLY give *code*. Do NOT explain or write anything more.",
     );
     suggestion = cleanCodeAnswer(suggestion);
     return suggestion;
@@ -159,6 +159,22 @@ export async function getGptAskFree(prompt: string): Promise<string> {
     var suggestion = await getGptSuggestion(
         prompt,
         "You are a virtual assistant installed in Visual Studio Code as an extension to help in software development and programming tasks.",
+    );
+    return suggestion;
+}
+
+export async function getGptAutorunExample(prompt: string): Promise<string> {
+    var suggestion = await getGptSuggestion(
+        prompt,
+        "You are given a piece of code and you run it as it you were the user. Write, step-by-step, what are you interacting with and what results you are getting. Be really specific with your examples, create realistic input data. Like '1. The program prints ...\n2. I type something\n3. The program prints ....\n4. I decide 'option'.\n5. The program...'"
+    );
+    return suggestion;
+}
+
+export async function getGptAutorunSequence(prompt: string): Promise<string> {
+    var suggestion = await getGptSuggestion(
+        prompt,
+        "You are a debugging tool installed in Visual Studio Code as an extension. You are given a piece of code and you simulate how it would run, giving details about variables values, exceptions raised, bugs and information about runtime and compilation. Write what would happen step-by-step, and, if it's a good format, enumerate each step.",
     );
     return suggestion;
 }

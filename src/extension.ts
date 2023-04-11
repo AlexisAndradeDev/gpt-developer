@@ -138,6 +138,38 @@ async function askFreeCommand() {
 	}
 }
 
+async function autorunExampleCommand() {
+	const [editor, inputCode] = vsc.startCommandForTextEditor();
+	
+	try {
+		vscode.window.showInformationMessage("Asking GPT...");
+		const answer = await gpt.getGptAutorunExample(inputCode);
+
+		vsc.showGPTAnswer(answer);
+		vscode.window.showInformationMessage("Code ran.");
+	}
+	catch (error) {
+		vscode.window.showErrorMessage("Could not get response from OpenAI.");
+		throw new NoResponse("Could not get response from OpenAI");
+	}
+}
+
+async function autorunSequenceCommand() {
+	const [editor, inputCode] = vsc.startCommandForTextEditor();
+	
+	try {
+		vscode.window.showInformationMessage("Asking GPT...");
+		const answer = await gpt.getGptAutorunSequence(inputCode);
+
+		vsc.showGPTAnswer(answer);
+		vscode.window.showInformationMessage("Code ran.");
+	}
+	catch (error) {
+		vscode.window.showErrorMessage("Could not get response from OpenAI.");
+		throw new NoResponse("Could not get response from OpenAI");
+	}
+}
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -164,6 +196,14 @@ export function activate(context: vscode.ExtensionContext) {
 
 		vscode.commands.registerCommand("gpt-developer.ask_free", async () => {
 			askFreeCommand();
+		}),
+
+		vscode.commands.registerCommand("gpt-developer.autorun_example", async () => {
+			autorunExampleCommand();
+		}),
+
+		vscode.commands.registerCommand("gpt-developer.autorun_sequence", async () => {
+			autorunSequenceCommand();
 		}),
 	];
 
