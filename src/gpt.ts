@@ -196,3 +196,19 @@ export async function getGptRefactorize(prompt: string): Promise<string> {
     suggestion = cleanCodeAnswer(suggestion);
     return suggestion;
 }
+
+export async function getGptDesignPatternsSugesttions(prompt: string): Promise<string> {
+    var suggestion = await getGptSuggestion(
+        prompt,
+        "You are a coding tool installed in Visual Studio Code as an extension. You are given a piece of code and you will explain what are the best design patterns that can be applied to that code.",
+    );
+    return suggestion;
+}
+
+export async function getGptDesignPattern(prompt: string): Promise<string> {
+    var suggestion = await getGptSuggestion(
+        prompt,
+        "You are a coding tool installed in Visual Studio Code as an extension. You are given a piece of code and will apply the design pattern that the user specified.",
+    );
+    return suggestion;
+}

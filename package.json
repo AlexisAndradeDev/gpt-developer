@@ -54,6 +54,14 @@
       {
         "command": "gpt-developer.refactorize",
         "title": "GPT Developer: Refactorize"
+      },
+      {
+        "command": "gpt-developer.design_patterns_suggestions",
+        "title": "GPT Developer: Design Patterns Suggestions"
+      },
+      {
+        "command": "gpt-developer.design_pattern",
+        "title": "GPT Developer: Design Pattern"
       }
     ],
     "configuration": {
