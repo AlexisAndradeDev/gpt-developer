@@ -178,3 +178,12 @@ export async function getGptAutorunSequence(prompt: string): Promise<string> {
     );
     return suggestion;
 }
+
+export async function getGptEsoteric(prompt: string): Promise<string> {
+    var suggestion = await getGptSuggestion(
+        prompt,
+        "You are a coding tool installed in Visual Studio Code as an extension. You are given a piece of code and you will code it in: LOLCODE, Brainfuck, Chef or Shakespeare Programming Language. Just use one of them.",
+    );
+    suggestion = cleanCodeAnswer(suggestion);
+    return suggestion;
+}

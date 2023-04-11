@@ -46,6 +46,10 @@
       {
         "command": "gpt-developer.autorun_sequence",
         "title": "GPT Developer: Autorun in Sequence"
+      },
+      {
+        "command": "gpt-developer.esoteric",
+        "title": "GPT Developer: Esoteric"
       }
     ],
     "configuration": {

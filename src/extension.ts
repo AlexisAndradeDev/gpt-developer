@@ -170,6 +170,22 @@ async function autorunSequenceCommand() {
 	}
 }
 
+async function esotericCommand() {
+	const [editor, inputCode] = vsc.startCommandForTextEditor();
+	
+	try {
+		vscode.window.showInformationMessage("Asking GPT...");
+		const answer = await gpt.getGptEsoteric(inputCode);
+
+		vsc.showGPTAnswer(answer);
+		vscode.window.showInformationMessage("Code created.");
+	}
+	catch (error) {
+		vscode.window.showErrorMessage("Could not get response from OpenAI.");
+		throw new NoResponse("Could not get response from OpenAI");
+	}
+}
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -204,6 +220,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 		vscode.commands.registerCommand("gpt-developer.autorun_sequence", async () => {
 			autorunSequenceCommand();
+		}),
+
+		vscode.commands.registerCommand("gpt-developer.esoteric", async () => {
+			esotericCommand();
 		}),
 	];
 
