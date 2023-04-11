@@ -38,6 +38,14 @@
       {
         "command": "gpt-developer.ask_free",
         "title": "GPT Developer: Ask Free"
+      },
+      {
+        "command": "gpt-developer.autorun_example",
+        "title": "GPT Developer: Autorun with Example"
+      },
+      {
+        "command": "gpt-developer.autorun_sequence",
+        "title": "GPT Developer: Autorun in Sequence"
       }
     ],
     "configuration": {

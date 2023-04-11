@@ -59,6 +59,6 @@ export function showGPTAnswer(answer: string) {
         {}
     );
     const escapedContent = escapeHtml(answer);
-    const gptAnswerHtml = "<html><body><pre>" + escapedContent + "</pre></body></html>";
+    const gptAnswerHtml = "<html><body style=\"font-size: 1rem; font-family: Roboto\"><pre>" + escapedContent + "</pre></body></html>";
     panel.webview.html = gptAnswerHtml;
 }
