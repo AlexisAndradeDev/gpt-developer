@@ -3,7 +3,7 @@
   "displayName": "GPT Developer",
   "publisher": "AlexisAndradeDev",
   "description": "Software development assistant based on GPT. Auto-complete code, give software architecture suggestions, debug, simulate executions, and all the other functions that GPT can perform if good prompts are used.",
-  "icon": "https://www.dropbox.com/s/yvqoybwag0gm2kq/icon.png?dl=1",
+  "icon": "images/icon.png",
   "version": "1.4.0",
   "engines": {
     "vscode": "^1.77.0"
