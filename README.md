@@ -8,19 +8,19 @@ Software development assistant based on GPT. Auto-complete code, give software a
 
 * Autocode: Select a piece of code and GPT will automatically generate new code (works better if you specify using comments what you want GPT to write!). If no code is selected, all the code before the cursor's position will be passed to GPT (20,000 chars ~ 4,000 tokens is the max length).
 
-![Autocode GIF](images/autocode.gif)
+![Autocode GIF](https://raw.githubusercontent.com/AlexisAndradeDev/gpt-developer/master/.github/images/autocode.gif)
 
 * Autorun: GPT simulates how the selected code would run, giving details about variables values, exceptions raised, bugs and information about runtime and compilation.
 
-![Autorun GIF](images/autorun.gif)
+![Autorun GIF](https://raw.githubusercontent.com/AlexisAndradeDev/gpt-developer/master/.github/images/autorun.gif)
 
 * Autorun in Sequence: GPT simulates, sequentially and step-by-step, how the selected code would run. Analyzes the possible inputs and outputs from the program.
 
-![Autorun in Sequence GIF](images/autorun-sequence.gif)
+![Autorun in Sequence GIF](https://raw.githubusercontent.com/AlexisAndradeDev/gpt-developer/master/.github/images/autorun-sequence.gif)
 
 * Autorun with Example: GPT simulates, sequentially and step-by-step, how the selected code would run, giving an example as if GPT were a user.
 
-![Autorun with Example GIF](images/autorun-example.gif)
+![Autorun with Example GIF](https://raw.githubusercontent.com/AlexisAndradeDev/gpt-developer/master/.github/images/autorun-example.gif)
 
 * Ask Problem: Select a piece of code and ask GPT about a problem that the piece of code has or might have.
 
