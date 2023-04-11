@@ -184,6 +184,15 @@ export async function getGptEsoteric(prompt: string): Promise<string> {
         prompt,
         "You are a coding tool installed in Visual Studio Code as an extension. You are given a piece of code and you will code it in: LOLCODE, Brainfuck, Chef or Shakespeare Programming Language. Just use one of them.",
     );
+    return suggestion;
+}
+
+export async function getGptRefactorize(prompt: string): Promise<string> {
+    var suggestion = await getGptSuggestion(
+        prompt,
+        "You are a coding tool installed in Visual Studio Code as an extension. You are given a piece of code and you will refactorize it as clean and orderly as possible, following the clean code principles of the programming language.",
+    );
+    suggestion = getCodeFromModelSuggestion(suggestion);
     suggestion = cleanCodeAnswer(suggestion);
     return suggestion;
 }
