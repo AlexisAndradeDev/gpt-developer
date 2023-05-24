@@ -54,9 +54,13 @@ This extension contributes the following settings:
 
 ## Release Notes
 
-### 1.5.1
+### 1.5.2
 
 Fix environment variable name.
+
+### 1.5.1
+
+Update README.md
 
 ### 1.5.0
 
