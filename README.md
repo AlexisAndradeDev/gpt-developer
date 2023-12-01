@@ -54,6 +54,10 @@ This extension contributes the following settings:
 
 ## Release Notes
 
+### 1.5.3
+
+Refactorize code.
+
 ### 1.5.2
 
 Fix environment variable name.
