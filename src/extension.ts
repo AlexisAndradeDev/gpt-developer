@@ -1,298 +1,38 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import * as commands from './commands';
 import * as gpt from "./gpt";
 import * as vsc from "./vsc_interaction";
 import { NoPrompt, NoResponse } from './exceptions';
-
-async function autocodeCommand() {
-	const [editor, inputCode] = vsc.startCommandForTextEditor();
-	
-	try {
-		vscode.window.showInformationMessage("Asking GPT...");
-		const answer = await gpt.getGptAutocode(inputCode);
-
-		editor.edit(editBuilder => {
-			const position = editor.selection.active;
-			editBuilder.insert(position, answer);
-		});
-		vscode.window.showInformationMessage("Code created.");
-	}
-	catch (error) {
-		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		return;
-	}
-}
-
-async function autorunCommand() {
-	const [editor, inputCode] = vsc.startCommandForTextEditor();
-	
-	try {
-		vscode.window.showInformationMessage("Asking GPT...");
-		const answer = await gpt.getGptAutorun(inputCode);
-
-		vsc.showGPTAnswer(answer);
-		vscode.window.showInformationMessage("Code ran.");
-	}
-	catch (error) {
-		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		return;
-	}
-}
-
-async function askProblemCommand() {
-	const [editor, inputCode] = vsc.startCommandForTextEditor();
-
-	const userInput = await vscode.window.showInputBox();
-	if (!userInput) {
-		vscode.window.showErrorMessage("Enter your prompt.");
-		return;
-	}
-	
-	const prompt = "Code:\n```" + inputCode + "\n```\nQuestion:\n\"" + userInput + "\".";
-
-	try {
-		vscode.window.showInformationMessage("Asking GPT...");
-		const answer = await gpt.getGptAskProblem(prompt);
-
-		vsc.showGPTAnswer(answer);
-		vscode.window.showInformationMessage("Answer created.");
-	}
-	catch (error) {
-		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		return;
-	}
-}
-
-async function autochangeCommand() {
-	const [editor, inputCode] = vsc.startCommandForTextEditor();
-
-	const userInput = await vscode.window.showInputBox();
-	if (!userInput) {
-		vscode.window.showErrorMessage("Enter your prompt.");
-		return;
-	}
-	
-	const prompt = "Code:\n```" + inputCode + "\n```\nChange this:\n\"" + userInput + "\".";
-
-	try {
-		vscode.window.showInformationMessage("Asking GPT...");
-		const answer = await gpt.getGptAutochange(prompt);
-
-		vsc.showGPTAnswer(answer);
-		vscode.window.showInformationMessage("Changed code created.");
-	}
-	catch (error) {
-		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		return;
-	}
-}
-
-async function explainCommand() {
-	const [editor, inputCode] = vsc.startCommandForTextEditor();
-
-	const userInput = await vscode.window.showInputBox();
-
-	const userQuestion = !userInput ? "Explain this code." : userInput;
-	
-	const prompt = "Code:\n```" + inputCode + "\n```\nUser says:\n\"" + userQuestion + "\".";
-
-	try {
-		vscode.window.showInformationMessage("Asking GPT...");
-		const answer = await gpt.getGptExplain(prompt);
-
-		vsc.showGPTAnswer(answer);
-		vscode.window.showInformationMessage("Explanation created.");
-	}
-	catch (error) {
-		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		return;
-	}
-}
-
-async function askFreeCommand() {
-	const [editor, inputCode] = vsc.startCommandForTextEditor(false);
-
-	const userInput = await vscode.window.showInputBox();
-	if (!userInput) {
-		vscode.window.showErrorMessage("Enter your prompt.");
-		return;
-	}
-
-	var prompt = "";
-	if (inputCode) {
-		prompt += "Code:\n```" + inputCode + "\n```\n";
-	}
-	prompt += "User says:\n\"" + userInput + "\".";
-
-	try {
-		vscode.window.showInformationMessage("Asking GPT...");
-		const answer = await gpt.getGptAskFree(prompt);
-
-		vsc.showGPTAnswer(answer);
-		vscode.window.showInformationMessage("Answer created.");
-	}
-	catch (error) {
-		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		return;
-	}
-}
-
-async function autorunExampleCommand() {
-	const [editor, inputCode] = vsc.startCommandForTextEditor();
-	
-	try {
-		vscode.window.showInformationMessage("Asking GPT...");
-		const answer = await gpt.getGptAutorunExample(inputCode);
-
-		vsc.showGPTAnswer(answer);
-		vscode.window.showInformationMessage("Code ran.");
-	}
-	catch (error) {
-		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		return;
-	}
-}
-
-async function autorunSequenceCommand() {
-	const [editor, inputCode] = vsc.startCommandForTextEditor();
-	
-	try {
-		vscode.window.showInformationMessage("Asking GPT...");
-		const answer = await gpt.getGptAutorunSequence(inputCode);
-
-		vsc.showGPTAnswer(answer);
-		vscode.window.showInformationMessage("Code ran.");
-	}
-	catch (error) {
-		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		return;
-	}
-}
-
-async function esotericCommand() {
-	const [editor, inputCode] = vsc.startCommandForTextEditor();
-	
-	try {
-		vscode.window.showInformationMessage("Asking GPT...");
-		const answer = await gpt.getGptEsoteric(inputCode);
-
-		vsc.showGPTAnswer(answer);
-		vscode.window.showInformationMessage("Code created.");
-	}
-	catch (error) {
-		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		return;
-	}
-}
-
-async function refactorizeCommand() {
-	const [editor, inputCode] = vsc.startCommandForTextEditor();
-	
-	try {
-		vscode.window.showInformationMessage("Asking GPT...");
-		const answer = await gpt.getGptRefactorize(inputCode);
-
-		vsc.showGPTAnswer(answer);
-		vscode.window.showInformationMessage("Code created.");
-	}
-	catch (error) {
-		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		return;
-	}
-}
-
-async function designPatternsSuggestionsCommand() {
-	const [editor, inputCode] = vsc.startCommandForTextEditor();
-	
-	try {
-		vscode.window.showInformationMessage("Asking GPT...");
-		const answer = await gpt.getGptDesignPatternsSugesttions(inputCode);
-
-		vsc.showGPTAnswer(answer);
-		vscode.window.showInformationMessage("Answer created.");
-	}
-	catch (error) {
-		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		return;
-	}
-}
-
-async function designPatternCommand() {
-	const [editor, inputCode] = vsc.startCommandForTextEditor();
-
-	const userInput = await vscode.window.showInputBox();
-	if (!userInput) {
-		vscode.window.showErrorMessage("Enter your prompt.");
-		return;
-	}
-	
-	const prompt = "Code:\n```" + inputCode + "\n```\nDesign pattern: " + userInput + ".";
-
-	try {
-		vscode.window.showInformationMessage("Asking GPT...");
-		const answer = await gpt.getGptDesignPattern(prompt);
-
-		vsc.showGPTAnswer(answer);
-		vscode.window.showInformationMessage("Answer created.");
-	}
-	catch (error) {
-		vscode.window.showErrorMessage("Could not get response from OpenAI.");
-		return;
-	}
-}
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 	let disposables = [
-		vscode.commands.registerCommand("gpt-developer.autocode", async () => {
-			autocodeCommand();
-		}),
+		vscode.commands.registerCommand("gpt-developer.autocode", new commands.AutocodeCommand().execute),
 
-		vscode.commands.registerCommand("gpt-developer.autorun", async () => {
-			autorunCommand();
-		}),
+		vscode.commands.registerCommand("gpt-developer.autorun", new commands.AutorunCommand().execute),
 
-		vscode.commands.registerCommand("gpt-developer.ask_problem", async () => {
-			askProblemCommand();
-		}),
+		vscode.commands.registerCommand("gpt-developer.ask_problem", new commands.AskProblemCommand().execute),
 
-		vscode.commands.registerCommand("gpt-developer.autochange", async () => {
-			autochangeCommand();
-		}),
+		vscode.commands.registerCommand("gpt-developer.autochange", new commands.AutochangeCommand().execute),
 
-		vscode.commands.registerCommand("gpt-developer.explain", async () => {
-			explainCommand();
-		}),
+		vscode.commands.registerCommand("gpt-developer.explain", new commands.ExplainCommand().execute),
 
-		vscode.commands.registerCommand("gpt-developer.ask_free", async () => {
-			askFreeCommand();
-		}),
+		vscode.commands.registerCommand("gpt-developer.ask_free", new commands.AskFreeCommand().execute),
 
-		vscode.commands.registerCommand("gpt-developer.autorun_example", async () => {
-			autorunExampleCommand();
-		}),
+		vscode.commands.registerCommand("gpt-developer.autorun_example", new commands.AutorunExampleCommand().execute),
 
-		vscode.commands.registerCommand("gpt-developer.autorun_sequence", async () => {
-			autorunSequenceCommand();
-		}),
+		vscode.commands.registerCommand("gpt-developer.autorun_sequence", new commands.AutorunSequenceCommand().execute),
 
-		vscode.commands.registerCommand("gpt-developer.esoteric", async () => {
-			esotericCommand();
-		}),
+		vscode.commands.registerCommand("gpt-developer.esoteric", new commands.EsotericCommand().execute),
 
-		vscode.commands.registerCommand("gpt-developer.refactorize", async () => {
-			refactorizeCommand();
-		}),
+		vscode.commands.registerCommand("gpt-developer.refactorize", new commands.RefactorizeCommand().execute),
 
-		vscode.commands.registerCommand("gpt-developer.design_patterns_suggestions", async () => {
-			designPatternsSuggestionsCommand();
-		}),
+		vscode.commands.registerCommand("gpt-developer.design_patterns_suggestions", new commands.DesignPatternsSuggestionsCommand().execute),
 
-		vscode.commands.registerCommand("gpt-developer.design_pattern", async () => {
-			designPatternCommand();
-		}),
+		vscode.commands.registerCommand("gpt-developer.design_pattern", new commands.DesignPatternCommand().execute),
 	];
 
 	disposables.forEach(disposable => {
