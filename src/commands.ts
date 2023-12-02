@@ -34,6 +34,8 @@ abstract class BaseTextEditorCommand extends ExecutableCommand {
     async handleAnswer(editor: vscode.TextEditor, answer: string) {
         if (answer !== "") {
             this.onSuccess(editor, answer);
+        } else {
+            vscode.window.showErrorMessage("The LLM was unable to generate a successful response for this command.");
         }
     }
 
@@ -96,17 +98,19 @@ abstract class BaseWithUserInputCommand extends BaseTextEditorCommand {
         await this.handleAnswer(editor, answer);
     }
     
-    async getUserInput(): Promise<string | undefined> {
+    async getUserInput(): Promise<string> {
         const userInput = await vscode.window.showInputBox();
 
         if (userInput === undefined) {
             vscode.window.showErrorMessage("Enter your prompt.");
+            return "";
         }
 
         return userInput;
     }
 
     createPrompt(inputCode: string, userInput: string): string {
+        console.log(inputCode, userInput);
         return `Code:\n\`\`\`${inputCode}\n\`\`\`\n${this.writeUserInputForPrompt(userInput)}`;
     }
 
@@ -122,37 +126,45 @@ abstract class BaseWithUserInputCommand extends BaseTextEditorCommand {
 
 export class AutocodeCommand extends BaseWithNoUserInputCommand {
     async getLLMAnswerMethod(prompt: string): Promise<string> {
-        return gpt.getGptAutocode(prompt);
+        var suggestion = await gpt.getGptSuggestion(
+            prompt, 
+            "You are a code auto-completion tool installed in Visual Studio Code as an extension. Given the input code and comments, generate new code (DO NOT rewrite the input code, just return the NEW one, unless the user asked to). Pay especial attention to the latest comment (if there's one). You ONLY give *code*.",
+        );
+        suggestion = gpt.getCodeFromModelSuggestion(suggestion);
+        suggestion = gpt.cleanCodeAnswer(suggestion);
+        return suggestion;
     }
 
     async showAnswer(editor: vscode.TextEditor, answer: string) {
-        editor.edit(editBuilder => {
-            const position = editor.selection.active;
-            editBuilder.insert(position, answer);
-        });
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_ACTIVE_EDITOR);
     }
 }
 
 export class AutorunCommand extends BaseWithNoUserInputCommand {
     async getLLMAnswerMethod(prompt: string): Promise<string> {
-        return gpt.getGptAutorun(prompt);
+        var suggestion = await gpt.getGptSuggestion(
+            prompt,
+            "You are a debugging tool installed in Visual Studio Code as an extension. You are given a piece of code and you simulate how it would run, giving details about variables values, exceptions raised, bugs and information about runtime and compilation.",
+        );
+        return suggestion;
     }
 
     async showAnswer(editor: vscode.TextEditor, answer: string) {
-        vsc.showGPTAnswer(answer);
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_SIDE_PANEL);
     }
 }
 
 export class AskProblemCommand extends BaseWithUserInputCommand {
     async getLLMAnswerMethod(prompt: string): Promise<string> {
-        return gpt.getGptAskProblem(prompt);
+        var suggestion = await gpt.getGptSuggestion(
+            prompt,
+            "You are a debugging tool installed in Visual Studio Code as an extension. You are given a piece of code and are asked about a problem that piece of code is having/might have.",
+        );
+        return suggestion;
     }
 
     async showAnswer(editor: vscode.TextEditor, answer: string) {
-        editor.edit(editBuilder => {
-            const position = editor.selection.active;
-            editBuilder.insert(position, answer);
-        });
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_SIDE_PANEL);
     }
     
     writeUserInputForPrompt(userInput: string): string {
@@ -160,14 +172,19 @@ export class AskProblemCommand extends BaseWithUserInputCommand {
     }
 }
 
-
 export class AutochangeCommand extends BaseWithUserInputCommand {
     async getLLMAnswerMethod(prompt: string): Promise<string> {
-        return gpt.getGptAutochange(prompt);
+        var suggestion = await gpt.getGptSuggestion(
+            prompt,
+            "You are a coding tool installed in Visual Studio Code as an extension. You are given a piece of code and are asked to change something on it. You ONLY give *code*.",
+        );
+        suggestion = gpt.getCodeFromModelSuggestion(suggestion);
+        suggestion = gpt.cleanCodeAnswer(suggestion);
+        return suggestion;
     }
 
     async showAnswer(editor: vscode.TextEditor, answer: string): Promise<void> {
-        vsc.showGPTAnswer(answer);
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_SIDE_PANEL);
     }
 
     writeUserInputForPrompt(userInput: string): string {
@@ -177,11 +194,15 @@ export class AutochangeCommand extends BaseWithUserInputCommand {
 
 export class ExplainCommand extends BaseWithUserInputCommand {
     async getLLMAnswerMethod(prompt: string): Promise<string> {
-        return gpt.getGptExplain(prompt);
+        var suggestion = await gpt.getGptSuggestion(
+            prompt,
+            "You are a debugging tool installed in Visual Studio Code as an extension. You are given a piece of code and are asked to explain it.",
+        );
+        return suggestion;
     }
 
     async showAnswer(editor: vscode.TextEditor, answer: string): Promise<void> {
-        vsc.showGPTAnswer(answer);
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_SIDE_PANEL);
     }
 
     writeUserInputForPrompt(userInput: string): string {
@@ -191,11 +212,15 @@ export class ExplainCommand extends BaseWithUserInputCommand {
 
 export class AskFreeCommand extends BaseWithUserInputCommand {
     async getLLMAnswerMethod(prompt: string): Promise<string> {
-        return gpt.getGptAskFree(prompt);
+        var suggestion = await gpt.getGptSuggestion(
+            prompt,
+            "You are a virtual assistant installed in Visual Studio Code as an extension to help in software development and programming tasks.",
+        );
+        return suggestion;
     }
 
     async showAnswer(editor: vscode.TextEditor, answer: string): Promise<void> {
-        vsc.showGPTAnswer(answer);
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_SIDE_PANEL);
     }
 
     writeUserInputForPrompt(userInput: string): string {
@@ -205,61 +230,87 @@ export class AskFreeCommand extends BaseWithUserInputCommand {
 
 export class AutorunExampleCommand extends BaseWithNoUserInputCommand {
     async getLLMAnswerMethod(prompt: string): Promise<string> {
-        return gpt.getGptAutorunExample(prompt);
+        var suggestion = await gpt.getGptSuggestion(
+            prompt,
+            "You are given a piece of code and you run it as it you were the user. Write, step-by-step, what are you interacting with and what results you are getting. Be really specific with your examples, create realistic input data. Like '1. The program prints ...\n2. I type something\n3. The program prints ....\n4. I decide 'option'.\n5. The program...'"
+        );
+        return suggestion;
     }
 
     async showAnswer(editor: vscode.TextEditor, answer: string) {
-        vsc.showGPTAnswer(answer);
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_SIDE_PANEL);
     }
 }
 
 export class AutorunSequenceCommand extends BaseWithNoUserInputCommand {
     async getLLMAnswerMethod(prompt: string): Promise<string> {
-        return gpt.getGptAutorunSequence(prompt);
+        var suggestion = await gpt.getGptSuggestion(
+            prompt,
+            "You are a debugging tool installed in Visual Studio Code as an extension. You are given a piece of code and you simulate how it would run, giving details about variables values, exceptions raised, bugs and information about runtime and compilation. Write what would happen step-by-step, and, if it's a good format, enumerate each step.",
+        );
+        return suggestion;
     }
 
     async showAnswer(editor: vscode.TextEditor, answer: string) {
-        vsc.showGPTAnswer(answer);
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_SIDE_PANEL);
     }
 }
 
 export class EsotericCommand extends BaseWithNoUserInputCommand {
     async getLLMAnswerMethod(prompt: string): Promise<string> {
-        return gpt.getGptEsoteric(prompt);
+        var suggestion = await gpt.getGptSuggestion(
+            prompt,
+            "You are a coding tool installed in Visual Studio Code as an extension. You are given a piece of code and you will code it in: LOLCODE, Brainfuck, Chef or Shakespeare Programming Language. Just use one of them.",
+        );
+        return suggestion;
     }
 
     async showAnswer(editor: vscode.TextEditor, answer: string) {
-        vsc.showGPTAnswer(answer);
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_SIDE_PANEL);
     }
 }
 
 export class RefactorizeCommand extends BaseWithNoUserInputCommand {
     async getLLMAnswerMethod(prompt: string): Promise<string> {
-        return gpt.getGptRefactorize(prompt);
+        var suggestion = await gpt.getGptSuggestion(
+            prompt,
+            "You are a coding tool installed in Visual Studio Code as an extension. You are given a piece of code and you will refactorize it as clean and orderly as possible, following the clean code principles of the programming language.",
+        );
+        suggestion = gpt.getCodeFromModelSuggestion(suggestion);
+        suggestion = gpt.cleanCodeAnswer(suggestion);
+        return suggestion;
     }
 
     async showAnswer(editor: vscode.TextEditor, answer: string) {
-        vsc.showGPTAnswer(answer);
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_SIDE_PANEL);
     }
 }
 
 export class DesignPatternsSuggestionsCommand extends BaseWithNoUserInputCommand {
     async getLLMAnswerMethod(prompt: string): Promise<string> {
-        return gpt.getGptDesignPatternsSugesttions(prompt);
+        var suggestion = await gpt.getGptSuggestion(
+            prompt,
+            "You are a coding tool installed in Visual Studio Code as an extension. You are given a piece of code and you will explain what are the best design patterns that can be applied to that code.",
+        );
+        return suggestion;
     }
 
     async showAnswer(editor: vscode.TextEditor, answer: string) {
-        vsc.showGPTAnswer(answer);
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_SIDE_PANEL);
     }
 }
 
 export class DesignPatternCommand extends BaseWithUserInputCommand {
     async getLLMAnswerMethod(prompt: string): Promise<string> {
-        return gpt.getGptDesignPattern(prompt);
+        var suggestion = await gpt.getGptSuggestion(
+            prompt,
+            "You are a coding tool installed in Visual Studio Code as an extension. You are given a piece of code and will apply the design pattern that the user specified.",
+        );
+        return suggestion;
     }
 
     async showAnswer(editor: vscode.TextEditor, answer: string): Promise<void> {
-        vsc.showGPTAnswer(answer);
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_SIDE_PANEL);
     }
 
     writeUserInputForPrompt(userInput: string): string {

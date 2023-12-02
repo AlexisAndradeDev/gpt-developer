@@ -54,6 +54,10 @@ This extension contributes the following settings:
 
 ## Release Notes
 
+### 1.5.4
+
+Fix 1 bug.
+
 ### 1.5.3
 
 Refactorize code.

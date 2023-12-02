@@ -1,6 +1,9 @@
 import * as vscode from 'vscode';
 import { NoActiveEditor } from './exceptions';
 
+export const WRITE_IN_SIDE_PANEL = 1;
+export const WRITE_IN_ACTIVE_EDITOR = 2;
+
 export function getSelectedCode(editor: vscode.TextEditor, getAllPreviousCodeIfNotSelected: boolean = true): string {
     var selectedCode = "";
 
@@ -53,12 +56,31 @@ function escapeCodeSections(content: string) {
     });
 }
 
-export function showGPTAnswer(answer: string) {
+export function writeInVSC(editor: vscode.TextEditor, answer: string, method: number) {
+    switch (method) {
+        case WRITE_IN_SIDE_PANEL:
+            writeInSidePanel(answer);
+            break;
+    
+        case WRITE_IN_ACTIVE_EDITOR:
+            writeInActiveEditor(editor, answer);
+            break;
+    }
+}
+
+function writeInSidePanel(text: string) {
     const panel = vscode.window.createWebviewPanel(
-        "gptResponse", "GPT Response", vscode.ViewColumn.Two,
+        "gptDeveloper", "GPT Developer", vscode.ViewColumn.Two,
         {}
     );
-    const escapedContent = escapeHtml(answer);
+    const escapedContent = escapeHtml(text);
     const gptAnswerHtml = "<html><body style=\"font-size: 1rem; font-family: Roboto\"><pre>" + escapedContent + "</pre></body></html>";
     panel.webview.html = gptAnswerHtml;
+}
+
+function writeInActiveEditor(editor: vscode.TextEditor, text: string) {
+    editor.edit(editBuilder => {
+        const position = editor.selection.active;
+        editBuilder.insert(position, text);
+    });
 }
