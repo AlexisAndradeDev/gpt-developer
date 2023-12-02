@@ -10,29 +10,42 @@ import { NoPrompt, NoResponse } from './exceptions';
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 	let disposables = [
-		vscode.commands.registerCommand("gpt-developer.autocode", new commands.AutocodeCommand().execute),
-
-		vscode.commands.registerCommand("gpt-developer.autorun", new commands.AutorunCommand().execute),
-
-		vscode.commands.registerCommand("gpt-developer.ask_problem", new commands.AskProblemCommand().execute),
-
-		vscode.commands.registerCommand("gpt-developer.autochange", new commands.AutochangeCommand().execute),
-
-		vscode.commands.registerCommand("gpt-developer.explain", new commands.ExplainCommand().execute),
-
-		vscode.commands.registerCommand("gpt-developer.ask_free", new commands.AskFreeCommand().execute),
-
-		vscode.commands.registerCommand("gpt-developer.autorun_example", new commands.AutorunExampleCommand().execute),
-
-		vscode.commands.registerCommand("gpt-developer.autorun_sequence", new commands.AutorunSequenceCommand().execute),
-
-		vscode.commands.registerCommand("gpt-developer.esoteric", new commands.EsotericCommand().execute),
-
-		vscode.commands.registerCommand("gpt-developer.refactorize", new commands.RefactorizeCommand().execute),
-
-		vscode.commands.registerCommand("gpt-developer.design_patterns_suggestions", new commands.DesignPatternsSuggestionsCommand().execute),
-
-		vscode.commands.registerCommand("gpt-developer.design_pattern", new commands.DesignPatternCommand().execute),
+		vscode.commands.registerCommand("gpt-developer.autocode", async () => {
+			new commands.AutocodeCommand().execute();
+		}),
+		vscode.commands.registerCommand("gpt-developer.autorun", () => {
+			new commands.AutorunCommand().execute();
+		}),
+		vscode.commands.registerCommand("gpt-developer.ask_problem", () => {
+			new commands.AskProblemCommand().execute();
+		}),
+		vscode.commands.registerCommand("gpt-developer.autochange", () => {
+			new commands.AutochangeCommand().execute();
+		}),
+		vscode.commands.registerCommand("gpt-developer.explain", () => {
+			new commands.ExplainCommand().execute();
+		}),
+		vscode.commands.registerCommand("gpt-developer.ask_free", () => {
+			new commands.AskFreeCommand().execute();
+		}),
+		vscode.commands.registerCommand("gpt-developer.autorun_example", () => {
+			new commands.AutorunExampleCommand().execute();
+		}),
+		vscode.commands.registerCommand("gpt-developer.autorun_sequence", () => {
+		   new commands.AutorunSequenceCommand().execute();
+		}),
+		vscode.commands.registerCommand("gpt-developer.esoteric", () => {
+			new commands.EsotericCommand().execute();
+		}),
+		vscode.commands.registerCommand("gpt-developer.refactorize", () => {
+			new commands.RefactorizeCommand().execute();
+		}),
+		vscode.commands.registerCommand("gpt-developer.design_patterns_suggestions", () => {
+		   new commands.DesignPatternsSuggestionsCommand().execute();
+		}),
+		vscode.commands.registerCommand("gpt-developer.design_pattern", () => {
+			new commands.DesignPatternCommand().execute();
+		}),
 	];
 
 	disposables.forEach(disposable => {
