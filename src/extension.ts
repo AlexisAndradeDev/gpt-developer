@@ -41,10 +41,22 @@ export function activate(context: vscode.ExtensionContext) {
 			new commands.RefactorizeCommand().execute();
 		}),
 		vscode.commands.registerCommand("gpt-developer.design_patterns_suggestions", () => {
-		   new commands.DesignPatternsSuggestionsCommand().execute();
+		    new commands.DesignPatternsSuggestionsCommand().execute();
 		}),
 		vscode.commands.registerCommand("gpt-developer.design_pattern", () => {
 			new commands.DesignPatternCommand().execute();
+		}),
+		vscode.commands.registerCommand("gpt-developer.optimize_code", () => {
+			new commands.OptimizeCodeCommand().execute();
+		}),
+		vscode.commands.registerCommand("gpt-developer.add_error_handling", () => {
+			new commands.AddErrorHandlingCommand().execute();
+		}),
+		vscode.commands.registerCommand("gpt-developer.comment_code", () => {
+			new commands.CommentCodeCommand().execute();
+		}),
+		vscode.commands.registerCommand("gpt-developer.create_tests", () => {
+			new commands.CreateTestsCommand().execute();
 		}),
 	];
 

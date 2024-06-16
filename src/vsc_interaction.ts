@@ -32,13 +32,7 @@ export function startCommandForTextEditor(getAllPreviousCodeIfNotSelected: boole
 
     const selectedCode = getSelectedCode(editor, getAllPreviousCodeIfNotSelected);
 
-    const maxPromptLength = 5000 * 4; // 1 token ~= 4 chars in English
-    if (selectedCode.length > maxPromptLength) {
-        vscode.window.showWarningMessage(`The selected code surpasses the max number of characters (${maxPromptLength} chars). Only the last ${maxPromptLength} will be used.`);
-    }
-    const prompt = selectedCode.substring(0, maxPromptLength);
-
-    return [editor, prompt] as const;
+    return [editor, selectedCode] as const;
 }
 
 function escapeHtml(unsafeHtml: string) {

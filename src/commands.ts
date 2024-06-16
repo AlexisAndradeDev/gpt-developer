@@ -317,3 +317,63 @@ export class DesignPatternCommand extends BaseWithUserInputCommand {
         return `Design pattern: ${userInput}.`;
     }
 }
+
+export class OptimizeCodeCommand extends BaseWithNoUserInputCommand {
+    async getLLMAnswerMethod(prompt: string): Promise<string> {
+        var suggestion = await gpt.getGptSuggestion(
+            prompt,
+            "You are a coding tool installed in Visual Studio Code as an extension. You are given a piece of code and you will rewrite it, optimizing for better performance and efficiency.",
+        );
+        return suggestion;
+    }
+
+    async showAnswer(editor: vscode.TextEditor, answer: string) {
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_SIDE_PANEL);
+    }
+}
+
+export class AddErrorHandlingCommand extends BaseWithNoUserInputCommand {
+    async getLLMAnswerMethod(prompt: string): Promise<string> {
+        var suggestion = await gpt.getGptSuggestion(
+            prompt,
+            "You are a coding tool installed in Visual Studio Code as an extension. You are given a piece of code and you will add error handling to improve its robustness. Just write code.",
+        );
+        suggestion = gpt.getCodeFromModelSuggestion(suggestion);
+        suggestion = gpt.cleanCodeAnswer(suggestion);
+        return suggestion;
+    }
+
+    async showAnswer(editor: vscode.TextEditor, answer: string) {
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_SIDE_PANEL);
+    }
+}
+
+export class CommentCodeCommand extends BaseWithNoUserInputCommand {
+    async getLLMAnswerMethod(prompt: string): Promise<string> {
+        var suggestion = await gpt.getGptSuggestion(
+            prompt,
+            "You are a coding tool installed in Visual Studio Code as an extension. You are given a piece of code and you will rewrite it, but adding documentation (like docstrings in Python or JavaDoc in Java) and comments in it. Don't write a comment for everything; JUST the necessary ones.",
+        );
+        suggestion = gpt.getCodeFromModelSuggestion(suggestion);
+        suggestion = gpt.cleanCodeAnswer(suggestion);
+        return suggestion;
+    }
+
+    async showAnswer(editor: vscode.TextEditor, answer: string) {
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_SIDE_PANEL);
+    }
+}
+
+export class CreateTestsCommand extends BaseWithNoUserInputCommand {
+    async getLLMAnswerMethod(prompt: string): Promise<string> {
+        var suggestion = await gpt.getGptSuggestion(
+            prompt,
+            "You are a testing tool installed in Visual Studio Code as an extension. You are given a piece of code and you will generate tests for it in the same language of the code.",
+        );
+        return suggestion;
+    }
+
+    async showAnswer(editor: vscode.TextEditor, answer: string) {
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_SIDE_PANEL);
+    }
+}

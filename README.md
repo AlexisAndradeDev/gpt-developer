@@ -50,9 +50,22 @@ This extension contributes the following settings:
 
 * `gpt-developer.openAIKey`: Your OpenAI API key. Leave this field blank if you already have a key in the OPENAI_API_KEY environment variable and you want to use it instead. Your data is completely secure! This key will be stored in your computer, so only you have access to it. If for some reason you don't want to store your key in this settings attribute, just set the OPENAI_API_KEY environment variable and leave this field blank.
 * `gpt-developer.model`: The model from OpenAI that you want to use (e.g. `gpt-4-0314`).
-* `gpt-developer.maxTokens`: Maximum number of tokens that GPT will generate. The higher this value, the more tokens will be used. There's the possibility that, considering also the number of input tokens (length of the selected code), the token limit of the model is surpassed and it will not be possible to receive a response from the model.
+* `gpt-developer.maxOutputTokens`: Maximum number of tokens that GPT will generate. The higher this value, the more tokens will be used. There's the possibility that, considering also the number of input tokens (length of the selected code), the token limit of the model is surpassed and it will not be possible to receive a response from the model.
+* `gpt-developer.maxInputTokens`: Maximum number of approximate tokens (4 characters) that GPT will get as input. The higher this value, the more tokens will be used. Learn more about each model's context window: https://platform.openai.com/docs/models.
 
 ## Release Notes
+
+### 1.6.0
+
+Add models: gpt-4o, gpt-4, gpt-4-turbo.
+
+Remove model: gpt-4-0314.
+
+Rename max output tokens configuration.
+
+Add max input tokens configuration.
+
+Add Optimize Code, Error Handling, Comment Code and Create Tests commands.
 
 ### 1.5.4
 
