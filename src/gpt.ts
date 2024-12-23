@@ -16,7 +16,7 @@ export function cleanCodeAnswer(modelAnswer: string) {
     return modelAnswer;
 }
 
-function getOpenAIApi(): openai.OpenAIApi {
+function getOpenAIApi(): openai.OpenAI {
     var apiKey: string;
 
     const vscApiKey = vscode.workspace.getConfiguration("gpt-developer").get<string>("openAIKey");
@@ -35,10 +35,7 @@ function getOpenAIApi(): openai.OpenAIApi {
         apiKey = vscApiKey;
     }
 
-    const configuration = new openai.Configuration({
-        apiKey: apiKey,
-    });
-    var openAIApi = new openai.OpenAIApi(configuration);
+    var openAIApi = new openai.OpenAI({apiKey: apiKey});
     return openAIApi;
 }
 
@@ -94,17 +91,23 @@ export async function getGptSuggestion(prompt: string, systemMessage: string): P
         prompt = prompt.substring(prompt.length-maxPromptLength, prompt.length);
     }
 
-    var messages = [];
+    var messages: openai.OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [];
     if (config["modelName"] === "gpt-3.5-turbo") {
         messages = [
-            {"role": openai.ChatCompletionResponseMessageRoleEnum.System, "content": systemMessage},
-            {"role": openai.ChatCompletionResponseMessageRoleEnum.User, "content": prompt + "\nIMPORTANT: " + systemMessage},
+            {"role": "system", "content": systemMessage},
+            {"role": "user", "content": prompt + "\nIMPORTANT: " + systemMessage},
         ];
     }
-    else if (["gpt-4", "gpt-4o", "gpt-4-turbo"].includes(config["modelName"])) {
+    else if (["gpt-4", "gpt-4-turbo", "gpt-4o", "gpt-4o-mini"].includes(config["modelName"])) {
         messages = [
-            {"role": openai.ChatCompletionResponseMessageRoleEnum.System, "content": systemMessage},
-            {"role": openai.ChatCompletionResponseMessageRoleEnum.User, "content": prompt},
+            {"role": "system", "content": systemMessage},
+            {"role": "user", "content": prompt},
+        ];
+    }
+    else if (["o1-preview", "o1-mini"].includes(config["modelName"])) {
+        messages = [
+            {"role": "user", "content": "System message:\n" + systemMessage},
+            {"role": "user", "content": prompt},
         ];
     }
     else {
@@ -112,18 +115,15 @@ export async function getGptSuggestion(prompt: string, systemMessage: string): P
         throw new ConfigError("Model not supported. Choose a supported model in the configuration of this extension.");
     }
 
-    const response = await config["openAIApi"].createChatCompletion({
+    const params: openai.OpenAI.Chat.ChatCompletionCreateParams = {
         model: config["modelName"],
         messages: messages,
-        max_tokens: config["maxOutputTokens"],
+        max_completion_tokens: config["maxOutputTokens"],
         n: 1,
-    });
+    };
 
-    const suggestion = response.data.choices[0].message?.content;
-    if (suggestion !== undefined) {
-        return suggestion;
-    }
-    else {
-        return "";
-    }
+    const response = await config["openAIApi"].chat.completions.create(params);
+
+    const suggestion = response.choices[0].message?.content;
+    return suggestion !== null ? suggestion : "";
 }
