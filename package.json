@@ -8,7 +8,7 @@
   "publisher": "AlexisAndradeDev",
   "description": "Software development assistant based on GPT. Auto-complete code, give software architecture suggestions, debug, simulate executions, and all the other functions that GPT can perform if good prompts are used.",
   "icon": "images/icon.png",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "engines": {
     "vscode": "^1.77.0"
   },
@@ -96,7 +96,10 @@
           "type": "string",
           "default": "gpt-4o",
           "enum": [
+            "o1-preview",
+            "o1-mini",
             "gpt-4o",
+            "gpt-4o-mini",
             "gpt-4-turbo",
             "gpt-4",
             "gpt-3.5-turbo"
@@ -138,6 +141,6 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "openai": "^3.2.1"
+    "openai": "4.77"
   }
 }

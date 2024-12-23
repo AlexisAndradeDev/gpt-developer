@@ -1,10 +1,10 @@
 # GPT Developer
 
-Software development assistant based on GPT. Auto-complete code, give software architecture suggestions, debug, simulate executions, and all the other functions that GPT can perform if good prompts are used.
+Software development assistant based on GPT. Auto-complete code, give software architecture suggestions, debug, simulate executions, and all the other functions that GPT can perform when good prompts are used.
 
 ## Features
 
-* Use GPT-3.5-turbo (current ChatGPT) or GPT-4 (if you have access!).
+* Use any of the OpenAI's chat models.
 
 * Autocode: Select a code snippet and GPT will automatically generate new code (works better if you specify using comments what you want GPT to write!). If no code is selected, all the code before the cursor's position will be passed to GPT (20,000 chars ~ 4,000 tokens is the max length).
 
@@ -54,6 +54,12 @@ This extension contributes the following settings:
 * `gpt-developer.maxInputTokens`: Maximum number of approximate tokens (4 characters) that GPT will get as input. The higher this value, the more tokens will be used. Learn more about each model's context window: https://platform.openai.com/docs/models.
 
 ## Release Notes
+
+### 1.7.0
+
+Add models: gpt-4o-mini, o1-preview, o1-mini.
+
+Update OpenAI library version.
 
 ### 1.6.0
 
