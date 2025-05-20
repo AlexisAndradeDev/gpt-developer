@@ -55,6 +55,14 @@ This extension contributes the following settings:
 
 ## Release Notes
 
+### 1.8.0
+
+Add models: gpt-4.1, gpt-4.1-mini, gpt-4.1-nano, o4-mini, o3, o3-mini, o1-pro, o1.
+
+Remove model: o1-preview
+
+Show a warning message when a reasoning model uses all of the output tokens in the reasoning process.
+
 ### 1.7.0
 
 Add models: gpt-4o-mini, o1-preview, o1-mini.

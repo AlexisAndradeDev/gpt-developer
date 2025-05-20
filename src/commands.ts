@@ -35,7 +35,7 @@ abstract class BaseTextEditorCommand extends ExecutableCommand {
         if (answer !== "") {
             this.onSuccess(editor, answer);
         } else {
-            vscode.window.showErrorMessage("The LLM was unable to generate a successful response for this command.");
+            vscode.window.showErrorMessage("The LLM was unable to generate a successful response for this command or generated an empty string.");
         }
     }
 

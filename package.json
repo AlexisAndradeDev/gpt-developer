@@ -8,7 +8,7 @@
   "publisher": "AlexisAndradeDev",
   "description": "Software development assistant based on GPT. Auto-complete code, give software architecture suggestions, debug, simulate executions, and all the other functions that GPT can perform if good prompts are used.",
   "icon": "images/icon.png",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "engines": {
     "vscode": "^1.77.0"
   },
@@ -90,13 +90,20 @@
         "gpt-developer.openAIKey": {
           "type": "string",
           "default": "",
-          "description": "Your OpenAI API key. Leave this field blank to use OPENAI_SECRET_KEY environment variable."
+          "description": "Your OpenAI API key. Leave this field blank to use OPENAI_API_KEY environment variable."
         },
         "gpt-developer.model": {
           "type": "string",
-          "default": "gpt-4o",
+          "default": "o4-mini",
           "enum": [
-            "o1-preview",
+            "gpt-4.1",
+            "gpt-4.1-mini",
+            "gpt-4.1-nano",
+            "o4-mini",
+            "o3",
+            "o3-mini",
+            "o1-pro",
+            "o1",
             "o1-mini",
             "gpt-4o",
             "gpt-4o-mini",
@@ -108,8 +115,8 @@
         },
         "gpt-developer.maxOutputTokens": {
           "type": "number",
-          "default": 1000,
-          "description": "Maximum number of tokens that GPT will generate. The higher this value, the more tokens will be used. There's the possibility that, considering also the number of input tokens (length of the selected code), the token limit of the model is surpassed and it will not be possible to receive a response from the model."
+          "default": 2000,
+          "description": "An upper bound for the number of tokens that can be generated for a completion, including **visible output tokens and reasoning tokens**. The higher this value, the more tokens will be used. There's the possibility that, considering also the number of input tokens (length of the selected code), the token limit of the model is surpassed and it will not be possible to receive a response from the model."
         },
         "gpt-developer.maxInputTokens": {
           "type": "number",
