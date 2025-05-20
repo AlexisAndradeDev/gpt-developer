@@ -58,6 +58,9 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand("gpt-developer.create_tests", () => {
 			new commands.CreateTestsCommand().execute();
 		}),
+		vscode.commands.registerCommand("gpt-developer.autocomplete", async () => {
+			new commands.AutocompleteCommand().execute();
+		}),
 	];
 
 	disposables.forEach(disposable => {

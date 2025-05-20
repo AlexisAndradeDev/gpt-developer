@@ -377,3 +377,19 @@ export class CreateTestsCommand extends BaseWithNoUserInputCommand {
         vsc.writeInVSC(editor, answer, vsc.WRITE_IN_SIDE_PANEL);
     }
 }
+
+export class AutocompleteCommand extends BaseWithNoUserInputCommand {
+    async getLLMAnswerMethod(prompt: string): Promise<string> {
+        var suggestion = await gpt.getGptSuggestion(
+            prompt, 
+            "You are an auto-completion tool installed in Visual Studio Code as an extension. Given the input code and comments, or the previous text/code/markdown/json/whatever format, generate new code/text/markdown/etc (DO NOT rewrite the input code, just return the NEW one, unless the user asked to; also with text and other formats). Pay especial attention to the latest comment (if there's one) or the latest instructions (e.g., in markdown might be the latest subtitle; or maybe the user wrote text without format to give instructions). Don't write ``` to specify a code format, just write the code/text/etc.",
+        );
+        suggestion = gpt.getCodeFromModelSuggestion(suggestion);
+        suggestion = gpt.cleanCodeAnswer(suggestion);
+        return suggestion;
+    }
+
+    async showAnswer(editor: vscode.TextEditor, answer: string) {
+        vsc.writeInVSC(editor, answer, vsc.WRITE_IN_ACTIVE_EDITOR);
+    }
+}

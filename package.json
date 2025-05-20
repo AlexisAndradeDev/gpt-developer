@@ -8,7 +8,7 @@
   "publisher": "AlexisAndradeDev",
   "description": "Software development assistant based on GPT. Auto-complete code, give software architecture suggestions, debug, simulate executions, and all the other functions that GPT can perform if good prompts are used.",
   "icon": "images/icon.png",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "engines": {
     "vscode": "^1.77.0"
   },
@@ -82,6 +82,10 @@
       {
         "command": "gpt-developer.create_tests",
         "title": "GPT Developer: Create Tests"
+      },
+      {
+        "command": "gpt-developer.autocomplete",
+        "title": "GPT Developer: Autocomplete"
       }
     ],
     "configuration": {

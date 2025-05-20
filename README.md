@@ -4,9 +4,11 @@ Software development assistant based on GPT. Auto-complete code, give software a
 
 ## Features
 
-* Use any of the OpenAI's chat models.
+* Use any of the OpenAI's chat and reasoning models.
 
-* Autocode: Select a code snippet and GPT will automatically generate new code (works better if you specify using comments what you want GPT to write!). If no code is selected, all the code before the cursor's position will be passed to GPT (20,000 chars ~ 4,000 tokens is the max length).
+* Autocomplete: Given the selected code snippet or any text, GPT automatically generates new code or content (works better if you specify using comments or some text what you want GPT to write!). It pays special attention to the latest comment or directive. If no code is selected, all the code before the cursor's position will be passed as the prompt.
+
+* Autocode: Select a code snippet and GPT will automatically generate new code (works better if you specify using comments what you want GPT to write!). If no code is selected, all the code before the cursor's position will be passed as the prompt.
 
 ![Autocode GIF](https://www.dropbox.com/s/d103qjdersuovk7/autocode.gif?dl=1)
 
@@ -54,6 +56,10 @@ This extension contributes the following settings:
 * `gpt-developer.maxInputTokens`: Maximum number of approximate tokens (4 characters) that GPT will get as input. The higher this value, the more tokens will be used. Learn more about each model's context window: https://platform.openai.com/docs/models.
 
 ## Release Notes
+
+### 1.9.0
+
+Add Autocomplete command.
 
 ### 1.8.0
 
